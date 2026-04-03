@@ -223,7 +223,8 @@ void principal(){
                 else
                     fatiaMax = QUANTUM;
 
-                tempoExecutar = 1 + rand()%fatiaMax;
+                //tempoExecutar = 1 + rand()%fatiaMax;//pega um numero aleatorio de 1 a 10 ut pra cada processo, vai mais devagar e é legal
+                tempoExecutar = fatiaMax;//executa de 10 ut cada processo, aqui vai mais rapido
 
                 t = 0;
                 while(t < tempoExecutar && exec->tempoExecutadoCPU < exec->tempoTotalCPU){
