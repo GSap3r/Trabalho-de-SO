@@ -44,7 +44,7 @@ void Titulo(){
 }
 
 void pausarTela(){
-    gotoxy(45,29);
+    gotoxy(48,29);
     textcolor(7);
     printf("Pressione qualquer tecla...");
     getch();
@@ -147,8 +147,49 @@ void telaEvento(char msg1[], char msg2[]){
     pausarTela();
 }
 
-void relatorioFinal(Processo *todos[], int total, int finalizados, int totalBloqueios, int somaTempoBloqueio, int totalRetornosPronto){
- 
+void relatorioFinal(Processo *todos[], int total, int finalizados, int totalBloqueios, int somaTempoBloqueio, int totalRetornosPronto) 
+{
+    int i;
+    int colunaInicio;
+    float mediaBloqueio;
+    
+    colunaInicio = 40;
+    mediaBloqueio = 0;
+
+    if (totalBloqueios > 0) 
+        mediaBloqueio = (float)somaTempoBloqueio / totalBloqueios;
+
+    clrscr();
+    Moldura(1, 1, 119, 30, 11, 0);
+    
+    gotoxy(42, 3); 
+    textcolor(14);
+    printf("##### RELATORIO FINAL DA SIMULACAO #####");
+
+    textcolor(7);
+    gotoxy(colunaInicio, 6);  printf("1. Processos Finalizados com Sucesso: %d", finalizados);
+    gotoxy(colunaInicio, 7);  printf("2. Total de Bloqueios Realizados:     %d", totalBloqueios);
+    gotoxy(colunaInicio, 8);  printf("3. Tempo Medio de Bloqueio:           %.2f UT", mediaBloqueio);
+    gotoxy(colunaInicio, 9);  printf("4. Preempcoes (Exec -> Pronto):       %d", totalRetornosPronto);
+
+    gotoxy(colunaInicio, 12);
+    textcolor(11);
+    printf("DETALHAMENTO POR PROCESSO:");
+    gotoxy(colunaInicio, 13);
+    printf("PID  | T. Sistema | Filhos | T. Bloqueado | Waits");
+    
+    textcolor(7);
+    for (i = 0; i < total; i++) 
+	{
+        gotoxy(colunaInicio, 14 + i);
+        printf("%-4d | %-10d | %-6d | %-12d | %-5d", 
+               todos[i]->pid, 
+               todos[i]->tempoTotalSistema, 
+               todos[i]->filhosCriados, 
+               todos[i]->tempoBloqueadoTotal,
+               todos[i]->waitsExecutados);
+    }
+    pausarTela();
 }
 
 void principal(){
